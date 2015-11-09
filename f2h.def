@@ -3,4 +3,6 @@ EXPORTS
   DebugExtensionUninitialize
   DebugExtensionNotify
   help
+  toh
   f2h
+  d2h

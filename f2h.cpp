@@ -1,20 +1,70 @@
 #include <engextcpp.hpp>
-class EXT_CLASS : public ExtExtension {
+union FloatToChar {
+    float           flt;
+    unsigned char   fltc[4];
+};
+union DoubleToChar {
+    double          dbl;
+    unsigned char   dblc[8];
+};
+class EXT_CLASS : public ExtExtension
+{
 public:
+    EXT_COMMAND_METHOD(toh);
     EXT_COMMAND_METHOD(f2h);
+    EXT_COMMAND_METHOD(d2h);
 };
 EXT_DECLARE_GLOBALS();
-EXT_COMMAND(f2h,"Float to Hex Convertor","{;s;<float>;example usage !f2h 9.2 will return 41133333}")
+EXT_COMMAND(
+    toh,
+    "Converts both 32 bit Float and 64 bit Double to HexString",
+    "{;s;<float>;example usage !toh 9.2 will return 41133333 and 4022666666666666}"
+    )
 {
-  PCSTR arg = GetUnnamedArgStr(0);
-  char *endptr;
-  double in = strtod(arg,&endptr);
-  union FloatToChar 
-  {
-    float f;
-    unsigned char  c[4];
-  };
-  FloatToChar x;
-  x.f = (float)in;
-  Out( "%02X%02X%02X%02X\n", x.c[3], x.c[2], x.c[1], x.c[0] );
+    f2h();
+    d2h();
+}
+EXT_COMMAND(
+    f2h,
+    "Converts Float to HexString",
+    "{;s;<float>;example usage !f2h 9.2 will return 41133333}"
+    )
+{
+    PCSTR arg = GetUnnamedArgStr(0);
+    char *endptr;
+    double in = strtod(arg,&endptr);
+    FloatToChar inflt;
+    inflt.flt = (float)in;
+    Out(
+        "%-20s%02X%02X%02X%02X\n",
+        "32 bit float",
+        inflt.fltc[3],
+        inflt.fltc[2],
+        inflt.fltc[1],
+        inflt.fltc[0]
+    );
+}
+EXT_COMMAND(
+    d2h,
+    "Convets DoubleTohexString",
+    "{;s;<float>;example usage !d2h 9.2 will return 4022666666666666}"
+    )
+{
+    PCSTR arg = GetUnnamedArgStr(0);
+    char *endptr;
+    double in = strtod(arg,&endptr);
+    DoubleToChar indbl;
+    indbl.dbl = (double)in;
+    Out(
+        "%-20s%02X%02X%02X%02X%02X%02X%02X%02X\n",
+        "64 bit Double",
+        indbl.dblc[7],
+        indbl.dblc[6],
+        indbl.dblc[5],
+        indbl.dblc[4],
+        indbl.dblc[3],
+        indbl.dblc[2],
+        indbl.dblc[1],
+        indbl.dblc[0]
+    );
 }
