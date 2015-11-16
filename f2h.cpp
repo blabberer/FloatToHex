@@ -18,7 +18,7 @@ EXT_DECLARE_GLOBALS();
 EXT_COMMAND(
     toh,
     "Converts both 32 bit Float and 64 bit Double to HexString",
-    "{;s;<float>;example usage !toh 9.2 will return 41133333 and 4022666666666666}"
+    "{{opt:+:}}{;s;<float>;example usage !toh 9.2 will return 41133333 and 4022666666666666}"
     )
 {
     f2h();
@@ -27,7 +27,7 @@ EXT_COMMAND(
 EXT_COMMAND(
     f2h,
     "Converts Float to HexString",
-    "{;s;<float>;example usage !f2h 9.2 will return 41133333}"
+    "{{opt:+:}}{;s;<float>;example usage !f2h 9.2 will return 41133333}"
     )
 {
     PCSTR arg = GetUnnamedArgStr(0);
@@ -36,8 +36,8 @@ EXT_COMMAND(
     FloatToChar inflt;
     inflt.flt = (float)in;
     Out(
-        "%-20s%02X%02X%02X%02X\n",
-        "32 bit float",
+        "%-30s%02X%02X%02X%02X\n",
+        "32_Bit_Float",
         inflt.fltc[3],
         inflt.fltc[2],
         inflt.fltc[1],
@@ -46,8 +46,8 @@ EXT_COMMAND(
 }
 EXT_COMMAND(
     d2h,
-    "Convets DoubleTohexString",
-    "{;s;<float>;example usage !d2h 9.2 will return 4022666666666666}"
+    "Converts DoubleTohexString",
+    "{{opt:+:}}{;s;<float>;example usage !d2h 9.2 will return 4022666666666666}"
     )
 {
     PCSTR arg = GetUnnamedArgStr(0);
@@ -56,8 +56,8 @@ EXT_COMMAND(
     DoubleToChar indbl;
     indbl.dbl = (double)in;
     Out(
-        "%-20s%02X%02X%02X%02X%02X%02X%02X%02X\n",
-        "64 bit Double",
+        "%-30s%02X%02X%02X%02X%02X%02X%02X%02X\n",
+        "64_Bit_Double",
         indbl.dblc[7],
         indbl.dblc[6],
         indbl.dblc[5],
